@@ -1,0 +1,75 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-box {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 100vw;
+  height: auto;
+  padding: 2.5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  background-color: var(--very-dark-grey);
+}
+
+.modal-box label {
+  font-size: 0.9rem;
+  color: var(--low-opaq-grey);
+}
+
+.remark {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.remark img {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.remark b {
+  color: var(--light-grey);
+  font-size: 1.5rem;
+  font-family: "Outfit-Black";
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.actions button {
+  color: #1f3641;
+  width: auto;
+  padding: 0.8rem 1rem 1rem;
+  border-radius: 0.4rem;
+  font-size: 1.1rem;
+  font-family: "Outfit-Black";
+}
+
+.actions .grey {
+  color: var(--very-dark-grey);
+  background-color: var(--grey);
+}
+
+.actions .orange {
+  background-color: var(--orange);
+}

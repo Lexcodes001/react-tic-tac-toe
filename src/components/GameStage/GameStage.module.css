@@ -1,0 +1,149 @@
+.game-stage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1.5rem auto;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.player__turn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem 0.7rem;
+  border-radius: 0.3rem !important;
+  font-size: 1rem;
+  font-family: "Outfit-Bold";
+  color: var(--grey);
+  background-color: var(--dark-grey);
+}
+
+.player__turn img {
+  width: 1rem;
+  height: auto;
+}
+
+.action__btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action__btns button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.3rem;
+  background-color: #f0f0f0;
+}
+
+.btn__disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+:is(.undo, .restart) img {
+  width: 1rem;
+  height: auto;
+}
+
+.thinking {
+  color: var(--light-grey);
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding-top: 3.5rem;
+}
+
+.thinking p{
+  font-family: monospace;
+  font-style: italic;
+}
+
+.thinking img {
+  transform: scale(0.7);
+}
+
+.thinking__img__light {
+  filter: invert(100%) saturate(0%) contrast(100%);
+}
+
+.game-board {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: center;
+  align-content: center;
+  gap: 1.5rem;
+}
+
+.game-board__cell {
+  width: 6.7rem;
+  height: 6.7rem;
+}
+
+.cell {
+  background-color: var(--dark-grey);
+}
+
+.xHasWon {
+  background-color: var(--green) !important;
+}
+
+.oHasWon {
+  background-color: var(--orange) !important;
+}
+
+.game-board__cell img {
+  width: 2.5rem;
+  height: auto;
+}
+
+.game-scores {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.score-box {
+  width: 6.7rem;
+  height: 4rem;
+  border-radius: 0.3rem;
+  color: var(--very-dark-grey);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+
+.score-box:nth-child(1) {
+  background-color: var(--green);
+}
+.score-box:nth-child(2) {
+  background-color: var(--grey);
+}
+.score-box:nth-child(3) {
+  background-color: var(--orange);
+}
+
+.score-box label {
+  font-size: 0.8rem;
+}
+
+.score-box b {
+  font-size: 1.6rem;
+  font-family: "Outfit-Black";
+  font-weight: 900;
+}

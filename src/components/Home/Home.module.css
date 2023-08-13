@@ -1,0 +1,171 @@
+.home {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin: 50% auto;
+  position: relative;
+}
+
+.toggle__container {
+  position: absolute;
+  top: -39%;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle__box {
+  position: relative;
+  width: 5rem;
+  height: 2.4rem;
+  border-radius: 1.5rem;
+  background-color: var(--light-grey);
+}
+
+.overlay {
+  transform: scale(1);
+  width: 2rem;
+  height: 1.5rem;
+  border-radius: 5rem;
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  z-index: 3;
+  background-color: var(--light-grey);
+  transition: transform .8s ease .7s;
+}
+
+.overlay__light {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 5rem;
+  position: absolute;
+  top: 3.5px;
+  right: 73%;
+  z-index: 1;
+  transform: scale(0);
+  background-color: var(--light-grey);
+ transition: right .8s ease;
+}
+
+.toggle {
+  width: 1.9rem;
+  height: 1.8rem;
+  border-radius: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  z-index: 1;
+  transform: translateY(-50%);
+  background-color: var(--dark-grey);
+  transition: left .5s linear;
+}
+
+
+.toggle__light {
+  width: 1.9rem;
+  height: 1.8rem;
+  border-radius: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 7px;
+  transform: translateY(-50%);
+  background-color: var(--dark-grey);
+  transition: left .5s linear;
+}
+
+.choice__box {
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--dark-grey);
+}
+
+.choice__box header{
+  color: var(--grey);
+}
+
+.choice__box header,
+.start__btns button {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: "Outfit-Bold";
+}
+
+.players {
+  width: 80%;
+  height: 4.5rem;
+  padding: 0 0.7rem;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 0.5rem;
+  background-color: var(--very-dark-grey);
+}
+
+.players span {
+  width: 100%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.players span img {
+  width: 2rem;
+}
+
+.players .active__bg {
+  width: 48%;
+  height: 3.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: var(--grey);
+  border-radius: 0.4rem;
+  z-index: 1;
+  transition: transform linear 0.5s;
+}
+
+.note {
+  color: var(--low-opaq-grey);
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.start__btns {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.start__btns button {
+  width: 100%;
+  height: 3.5rem;
+  color: var(--very-dark-grey);
+  padding: 0.8rem 0 1rem;
+}
+
+.vs__ai {
+  background-color: var(--orange);
+}
+
+.vs__human {
+  background-color: var(--green);
+}
+
+@media (prefers-color-scheme: light) {
+}

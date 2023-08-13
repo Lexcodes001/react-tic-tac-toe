@@ -1,35 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import classes from "./App.module.css";
+import Home from "./components/Home/Home";
+import GameStage from "./components/GameStage/GameStage";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isStart, setIsStart] = useState(false);
+  const [gameMode, setGameMode] = useState("");
+  const [isPlayerX, setIsPlayerX] = useState(true);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || 'dark');
+
+  useEffect(() => {
+    const handleThemeChange = (matches) => {
+      const selectedTheme = matches ? "dark" : "light";
+      setTheme(selectedTheme);
+      alert(selectedTheme);
+      localStorage.setItem("theme", selectedTheme);
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const listener = (event) => {
+      handleThemeChange(event.matches);
+    }
+
+    mediaQuery.addEventListener("change", listener);
+
+    return () => {
+      mediaQuery.removeEventListener("change", listener);
+    }
+  }, []);
+
+  useEffect(() => {
+    const applyTheme = (selected) => {
+      document.documentElement.setAttribute("data-theme", selected);
+      localStorage.setItem("theme", selected);
+    };
+    applyTheme(theme);
+  }, [theme]);
+
+  // const getInitialTheme = () => {
+  //   const savedTheme = localStorage.getItem("theme");
+  //   return savedTheme ? savedTheme : "dark";
+  // }
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className={classes.app}>
+      {
+        !isStart ? (
+        <Home
+          isPlayerX={isPlayerX}
+          onSetIsPlayerX={(e) => {
+            setIsPlayerX(e);
+          }}
+          onSelectMode={(e) => {
+            setGameMode(e);
+            setIsStart(true);
+          }}
+          theme={theme}
+          toggleTheme={toggleTheme}
+        />
+      ) : (
+        <GameStage
+          isPlayerX={isPlayerX}
+          theme={theme}
+          gameMode={gameMode}
+          onQuitGame={() => {
+            setIsStart(false);
+            setGameMode("");
+          }}
+        />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
