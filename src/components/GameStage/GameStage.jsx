@@ -88,9 +88,9 @@ const GameBoardCell = (props) => {
   return (
     <button
       className={`${classes["game-board__cell"]} ${
-        (props.state !== "empty" || !props.isMyTurn) &&
-        props.gameMode === "ai" &&
-        "disabled"
+        ((props.state !== "empty" || !props.isMyTurn) &&
+          props.gameMode === "ai") ||
+        (props.state !== "empty" && props.gameMode === "human") ? "disabled" : ''
       } ${
         props.state === "xHasWon"
           ? classes.xHasWon
@@ -344,11 +344,40 @@ const GameStage = (props) => {
 
   const runBotMove = () => {
     if (!isMyTurn) {
+      const botMark = isPlayerX ? "o" : "x";
       updatedState = [...cellState];
       if (cellState !== gameCellsObj) {
         filteredState = updatedState.filter((obj) => obj.state === "empty");
-        randomIndex = Math.floor(Math.random() * filteredState.length);
-        randomId = filteredState[randomIndex].id;
+        let filteredStateId = filteredState.map((obj) => obj.id);
+        let botCellState = updatedState.filter((obj) => obj.state === botMark);
+        let botCellStateId = botCellState.map((obj) => obj.id);
+        let matchingIndexes = [],
+          unMatchingIndexes = [], filteredId, botId;
+        for (filteredId of filteredStateId) {
+          for (botId of botCellStateId) {
+            if (
+              (filteredId - botId >= 1 && filteredId - botId <= 4) ||
+              (botId - filteredId >= 1 && botId - filteredId <= 4)
+            ) {
+              matchingIndexes.push(filteredId);
+            } else {
+              unMatchingIndexes.push(filteredId);
+            }
+          }
+        }
+
+        let filteredStateRandomIndex;
+
+        if (matchingIndexes.length !== 0) {
+          filteredStateRandomIndex = Math.floor(
+            Math.random() * matchingIndexes.length
+          );
+        } else {
+          filteredStateRandomIndex = Math.floor(
+            Math.random() * unMatchingIndexes.length
+          );
+        }
+        randomId = filteredState[filteredStateRandomIndex].id;
       } else {
         randomIndex = Math.floor(Math.random() * updatedState.length);
         randomId = updatedState[randomIndex].id;
@@ -445,7 +474,7 @@ const GameStage = (props) => {
     ) {
       runBotMove();
     }
-    
+
     setIsDisabled(cellState === gameCellsObj);
   };
 
@@ -497,11 +526,13 @@ const GameStage = (props) => {
       </div>
 
       <div className={`${classes.thinking}`}>
-        <p>{isXTurn === isPlayerX
-          ? "Weighing my options"
-          : props.gameMode === "ai"
-          ? "AI is thinking"
-          : "Our buddy here is calculating"}</p>
+        <p>
+          {isXTurn === isPlayerX
+            ? "Weighing my options"
+            : props.gameMode === "ai"
+            ? "AI is thinking"
+            : "Our buddy here is calculating"}
+        </p>
         <img
           className={`${
             props.theme === "light" && classes["thinking__img__light"]
