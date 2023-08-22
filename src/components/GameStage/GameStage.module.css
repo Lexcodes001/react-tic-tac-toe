@@ -65,7 +65,7 @@
   padding-top: 3.5rem;
 }
 
-.thinking p{
+.thinking p {
   font-family: monospace;
   font-style: italic;
 }
@@ -131,9 +131,11 @@
 .score-box:nth-child(1) {
   background-color: var(--green);
 }
+
 .score-box:nth-child(2) {
   background-color: var(--grey);
 }
+
 .score-box:nth-child(3) {
   background-color: var(--orange);
 }

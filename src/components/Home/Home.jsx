@@ -10,9 +10,20 @@ const Home = (props) => {
   return (
     <div className={classes.home}>
       <div className={classes.toggle__container}>
-        <div onClick={()=>props.toggleTheme()} className={classes.toggle__box}>
-          <span className={`${props.theme === 'dark' ? classes.overlay : classes.overlay__light}`}></span>
-          <span className={`${props.theme === 'dark' ? classes.toggle : classes.toggle__light}`}></span>
+        <div
+          onClick={() => props.toggleTheme()}
+          className={classes.toggle__box}
+        >
+          <span
+            className={`${
+              props.theme === "dark" ? classes.overlay : classes.overlay__light
+            }`}
+          ></span>
+          <span
+            className={`${
+              props.theme === "dark" ? classes.toggle : classes.toggle__light
+            }`}
+          ></span>
         </div>
       </div>
       <div className={classes.logo}>
@@ -27,7 +38,7 @@ const Home = (props) => {
               props.onSetIsPlayerX(true);
             }}
           >
-            {props.theme === 'dark' ? (
+            {props.theme === "dark" ? (
               <img src={!props.isPlayerX ? IconXGrey : IconXBlack} alt="." />
             ) : (
               <img src={props.isPlayerX ? IconXGrey : IconXBlack} alt="." />
@@ -38,7 +49,7 @@ const Home = (props) => {
               props.onSetIsPlayerX(false);
             }}
           >
-            {props.theme === 'dark' ? (
+            {props.theme === "dark" ? (
               <img src={props.isPlayerX ? IconOGrey : IconOBlack} alt="." />
             ) : (
               <img src={!props.isPlayerX ? IconOGrey : IconOBlack} alt="." />

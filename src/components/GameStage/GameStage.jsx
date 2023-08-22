@@ -90,7 +90,9 @@ const GameBoardCell = (props) => {
       className={`${classes["game-board__cell"]} ${
         ((props.state !== "empty" || !props.isMyTurn) &&
           props.gameMode === "ai") ||
-        (props.state !== "empty" && props.gameMode === "human") ? "disabled" : ''
+        (props.state !== "empty" && props.gameMode === "human")
+          ? "disabled"
+          : ""
       } ${
         props.state === "xHasWon"
           ? classes.xHasWon
@@ -345,42 +347,61 @@ const GameStage = (props) => {
   const runBotMove = () => {
     if (!isMyTurn) {
       const botMark = isPlayerX ? "o" : "x";
-      updatedState = [...cellState];
       if (cellState !== gameCellsObj) {
-        filteredState = updatedState.filter((obj) => obj.state === "empty");
-        let filteredStateId = filteredState.map((obj) => obj.id);
-        let botCellState = updatedState.filter((obj) => obj.state === botMark);
+        let filteredObj = [...cellState].filter((obj) => obj.state === "empty");
+        let filteredStateId = filteredObj.map((obj) => obj.id);
+        let botCellState = [...cellState].filter(
+          (obj) => obj.state === botMark
+        );
         let botCellStateId = botCellState.map((obj) => obj.id);
         let matchingIndexes = [],
-          unMatchingIndexes = [], filteredId, botId;
-        for (filteredId of filteredStateId) {
-          for (botId of botCellStateId) {
-            if (
-              (filteredId - botId >= 1 && filteredId - botId <= 4) ||
-              (botId - filteredId >= 1 && botId - filteredId <= 4)
-            ) {
-              matchingIndexes.push(filteredId);
-            } else {
-              unMatchingIndexes.push(filteredId);
+          unMatchingIndexes = [],
+          filteredObjIndex,
+          filteredId,
+          botId,
+          filteredStateRandomIndex;
+
+        const loopIndexes = () => {
+          for (filteredId of filteredStateId) {
+            for (botId of botCellStateId) {
+              if (
+                (filteredId - botId >= 1 && filteredId - botId <= 4) ||
+                (botId - filteredId >= 1 && botId - filteredId <= 4)
+              ) {
+                matchingIndexes.push(filteredId);
+              } else {
+                unMatchingIndexes.push(filteredId);
+              }
             }
           }
-        }
 
-        let filteredStateRandomIndex;
+          if (matchingIndexes.length > 0) {
+            return matchingIndexes;
+          } else {
+            return unMatchingIndexes;
+          }
+        };
 
-        if (matchingIndexes.length !== 0) {
+        let selectedIndexes = loopIndexes();
+
+        if (selectedIndexes.length === 1) {
+          randomId = filteredObj[selectedIndexes[0]].id;
+        } else if (selectedIndexes.length === 0) {
           filteredStateRandomIndex = Math.floor(
-            Math.random() * matchingIndexes.length
+            Math.random() * filteredStateId.length
           );
+          filteredObjIndex = filteredStateId[filteredStateRandomIndex];
+          randomId = filteredObjIndex;
         } else {
           filteredStateRandomIndex = Math.floor(
-            Math.random() * unMatchingIndexes.length
+            Math.random() * selectedIndexes.length
           );
+          filteredObjIndex = selectedIndexes[filteredStateRandomIndex];
+          randomId = filteredObjIndex;
         }
-        randomId = filteredState[filteredStateRandomIndex].id;
       } else {
-        randomIndex = Math.floor(Math.random() * updatedState.length);
-        randomId = updatedState[randomIndex].id;
+        randomIndex = Math.floor(Math.random() * [...cellState].length);
+        randomId = [...cellState][randomIndex].id;
       }
 
       let randomTime = Math.floor(Math.random() * 4000);
@@ -406,11 +427,7 @@ const GameStage = (props) => {
   };
 
   const goToNext = () => {
-    dispatchCellState({
-      type: "restart",
-      id: null,
-      state: null,
-    });
+    dispatchCellState({ type: "restart", id: null, state: null });
 
     setDispModal("");
     // setIsXTurn(!xWon);
@@ -460,11 +477,6 @@ const GameStage = (props) => {
     let resultObj;
     resultObj = gameCheck();
     let { isADraw, xHasWon, oHasWon } = resultObj;
-
-    console.log(
-      `isADraw ${isADraw}, xHasWon ${xHasWon}, oHasWon ${oHasWon}, hasTied ${hasTied}`
-    );
-
     if (
       !isADraw &&
       !xHasWon &&
