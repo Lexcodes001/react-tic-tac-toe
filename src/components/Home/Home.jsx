@@ -1,5 +1,6 @@
 import { useState } from "react";
 import classes from "./Home.module.css";
+import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../../assets/icons/logo.svg";
 import IconXBlack from "../../assets/icons/icon-x-black.svg";
 import IconOBlack from "../../assets/icons/icon-o-black.svg";

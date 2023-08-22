@@ -1,6 +1,7 @@
 import { useState, useEffect, useReducer } from "react";
-import Modal from "../Modal/Modal";
 import classes from "./GameStage.module.css";
+import { motion, AnimatePresence } from "framer-motion";
+import Modal from "../Modal/Modal";
 import Logo from "../../assets/icons/logo.svg";
 import IconX from "../../assets/icons/icon-x.svg";
 import IconO from "../../assets/icons/icon-o.svg";

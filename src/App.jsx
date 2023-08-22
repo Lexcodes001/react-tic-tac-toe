@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import classes from "./App.module.css";
+import { motion, AnimatePresence } from "framer-motion";
 import Home from "./components/Home/Home";
 import GameStage from "./components/GameStage/GameStage";
 
@@ -37,11 +38,6 @@ function App() {
     applyTheme(theme);
   }, [theme]);
 
-  // const getInitialTheme = () => {
-  //   const savedTheme = localStorage.getItem("theme");
-  //   return savedTheme ? savedTheme : "dark";
-  // }
-
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -49,31 +45,32 @@ function App() {
 
   return (
     <div className={classes.app}>
-      {
-        !isStart ? (
-        <Home
-          isPlayerX={isPlayerX}
-          onSetIsPlayerX={(e) => {
-            setIsPlayerX(e);
-          }}
-          onSelectMode={(e) => {
-            setGameMode(e);
-            setIsStart(true);
-          }}
-          theme={theme}
-          toggleTheme={toggleTheme}
-        />
-      ) : (
-        <GameStage
-          isPlayerX={isPlayerX}
-          theme={theme}
-          gameMode={gameMode}
-          onQuitGame={() => {
-            setIsStart(false);
-            setGameMode("");
-          }}
-        />
-      )}
+      <AnimatePresence mode="popLayout">
+        {!isStart ? (
+          <Home
+            isPlayerX={isPlayerX}
+            onSetIsPlayerX={(e) => {
+              setIsPlayerX(e);
+            }}
+            onSelectMode={(e) => {
+              setGameMode(e);
+              setIsStart(true);
+            }}
+            theme={theme}
+            toggleTheme={toggleTheme}
+          />
+        ) : (
+          <GameStage
+            isPlayerX={isPlayerX}
+            theme={theme}
+            gameMode={gameMode}
+            onQuitGame={() => {
+              setIsStart(false);
+              setGameMode("");
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

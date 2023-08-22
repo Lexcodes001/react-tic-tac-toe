@@ -1,4 +1,5 @@
 import classes from "./Modal.module.css";
+import { motion, AnimatePresence } from "framer-motion";
 import IconX from "../../assets/icons/icon-x.svg";
 import IconO from "../../assets/icons/icon-o.svg";
 
