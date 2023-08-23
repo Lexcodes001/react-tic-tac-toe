@@ -9,7 +9,13 @@ import IconOGrey from "../../assets/icons/icon-o-grey.svg";
 
 const Home = (props) => {
   return (
-    <div className={classes.home}>
+    <motion.div
+      className={classes.home}
+      variants={props.variants}
+      initial="hide"
+      animate="reveal"
+      exit="hide"
+    >
       <div className={classes.toggle__container}>
         <div
           onClick={() => props.toggleTheme()}
@@ -27,62 +33,95 @@ const Home = (props) => {
           ></span>
         </div>
       </div>
-      <div className={classes.logo}>
+      <motion.div className={classes.logo}>
         <img src={Logo} alt="." />
-      </div>
+      </motion.div>
 
-      <div className={`${classes.choice__box} card`}>
+      <motion.div
+        className={`${classes.choice__box} card`}
+        style={{
+          boxShadow: `inset 0 -5px 0 ${
+            props.theme === "dark" ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"
+          }`,
+        }}
+      >
         <header>PICK PLAYER 1's MARK</header>
-        <div className={classes.players}>
-          <span
+        <motion.div className={classes.players}>
+          <motion.span
             onClick={() => {
               props.onSetIsPlayerX(true);
             }}
+            variants={props.variants}
+            animate={{ scale: 1 }}
+            whileTap="tap"
           >
             {props.theme === "dark" ? (
               <img src={!props.isPlayerX ? IconXGrey : IconXBlack} alt="." />
             ) : (
               <img src={props.isPlayerX ? IconXGrey : IconXBlack} alt="." />
             )}
-          </span>
-          <span
+          </motion.span>
+          <motion.span
             onClick={() => {
               props.onSetIsPlayerX(false);
             }}
+            variants={props.variants}
+            animate={{ scale: 1 }}
+            whileTap="tap"
           >
             {props.theme === "dark" ? (
               <img src={props.isPlayerX ? IconOGrey : IconOBlack} alt="." />
             ) : (
               <img src={!props.isPlayerX ? IconOGrey : IconOBlack} alt="." />
             )}
-          </span>
-          <span
+          </motion.span>
+          <motion.span
             className={classes.active__bg}
             style={{
               transform: props.isPlayerX
                 ? "translate(-98%, -50%)"
                 : "translate(-2%, -50%)",
             }}
-          ></span>
-        </div>
-        <span className={classes.note}>REMEMBER: X GOES FIRST</span>
-      </div>
+          ></motion.span>
+        </motion.div>
+        <motion.span className={classes.note}>
+          REMEMBER: X GOES FIRST
+        </motion.span>
+      </motion.div>
 
-      <div className={classes.start__btns}>
-        <button
+      <motion.div className={classes.start__btns}>
+        <motion.button
           className={`${classes.vs__ai} card`}
+          style={{
+            boxShadow: `inset 0 -5px 0 ${
+              props.theme === "dark"
+                ? "rgba(0, 0, 0, 0.3)"
+                : "rgba(0, 0, 0, 0.2)"
+            }`,
+          }}
           onClick={() => props.onSelectMode("ai")}
+          variants={props.variants}
+          whileTap="tap"
         >
           NEW GAME (VS AI)
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           className={`${classes.vs__human} card`}
+          style={{
+            boxShadow: `inset 0 -5px 0 ${
+              props.theme === "dark"
+                ? "rgba(0, 0, 0, 0.3)"
+                : "rgba(0, 0, 0, 0.2)"
+            }`,
+          }}
           onClick={() => props.onSelectMode("human")}
+          variants={props.variants}
+          whileTap="tap"
         >
           NEW GAME (VS PLAYER)
-        </button>
-      </div>
-    </div>
+        </motion.button>
+      </motion.div>
+    </motion.div>
   );
 };
 

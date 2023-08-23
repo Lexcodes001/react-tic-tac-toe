@@ -87,7 +87,7 @@ const GameBoardCell = (props) => {
   };
 
   return (
-    <button
+    <motion.button
       className={`${classes["game-board__cell"]} ${
         ((props.state !== "empty" || !props.isMyTurn) &&
           props.gameMode === "ai") ||
@@ -101,10 +101,31 @@ const GameBoardCell = (props) => {
           ? classes.oHasWon
           : classes.cell
       } card`}
+      style={{
+        boxShadow: `inset 0 -5px 0 ${
+          props.theme === "dark" ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"
+        }`,
+      }}
+      variants={props.variants}
+      initial="opacityHide"
+      animate="opacityReveal"
+      exit="opacityHide"
+      whileTap="tap"
       onClick={props.onClick}
     >
-      {props.state === "empty" ? "" : <img src={checkIcon()} alt="." />}
-    </button>
+      {props.state === "empty" ? (
+        ""
+      ) : (
+        <img
+          src={checkIcon()}
+          alt="."
+          variants={props.variants}
+          initial="hide"
+          animate="reveal"
+          exit="hide"
+        />
+      )}
+    </motion.button>
   );
 };
 
@@ -496,13 +517,34 @@ const GameStage = (props) => {
   }, [isMyTurn, hasMoved]);
 
   return (
-    <div className={classes["game-stage"]}>
-      <div className={classes.header}>
-        <span className={classes.logo}>
-          <img src={Logo} alt="." />
-        </span>
+    <motion.div
+      className={classes["game-stage"]}
+      variants={props.variants}
+      initial="hide"
+      animate="reveal"
+      exit="hide"
+    >
+      <motion.div className={classes.header}>
+        <motion.span className={classes.logo}>
+          <img
+            src={Logo}
+            alt="."
+            onClick={() => {
+              quitGame();
+            }}
+          />
+        </motion.span>
 
-        <span className={`${classes.player__turn} card`}>
+        <motion.span
+          className={`${classes.player__turn} card`}
+          style={{
+            boxShadow: `inset 0 -5px 0 ${
+              props.theme === "dark"
+                ? "rgba(0, 0, 0, 0.3)"
+                : "rgba(0, 0, 0, 0.2)"
+            }`,
+          }}
+        >
           <img
             src={
               isXTurn
@@ -516,76 +558,108 @@ const GameStage = (props) => {
             alt="."
           />
           TURN
-        </span>
+        </motion.span>
 
-        <span className={classes.action__btns}>
-          <button
+        <motion.span className={classes.action__btns}>
+          <motion.button
             className={`card ${classes.undo} ${
               isDisabled && classes["btn__disabled"]
             }`}
+            style={{
+              boxShadow: `inset 0 -5px 0 ${
+                props.theme === "dark"
+                  ? "rgba(0, 0, 0, 0.3)"
+                  : "rgba(0, 0, 0, 0.2)"
+              }`,
+            }}
             onClick={undoLastMove}
+            variants={props.variants}
+            animate={{ scale: 1 }}
+            whileTap="tap"
           >
             <img src={UndoIcon} alt="." />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             className={`card ${classes.restart} ${
               isDisabled && classes["btn__disabled"]
             }`}
+            style={{
+              boxShadow: `inset 0 -5px 0 ${
+                props.theme === "dark"
+                  ? "rgba(0, 0, 0, 0.3)"
+                  : "rgba(0, 0, 0, 0.2)"
+              }`,
+            }}
             onClick={() => setDispModal("restart")}
+            variants={props.variants}
+            animate={{ scale: 1 }}
+            whileTap="tap"
           >
             <img src={RestartIcon} alt="." />
-          </button>
-        </span>
-      </div>
+          </motion.button>
+        </motion.span>
+      </motion.div>
 
-      <div className={`${classes.thinking}`}>
-        <p>
-          {isXTurn === isPlayerX
-            ? "Weighing my options"
-            : props.gameMode === "ai"
-            ? "AI is thinking"
-            : "Our buddy here is calculating"}
-        </p>
-        <img
+      <motion.div
+        className={`${classes.thinking}`}
+        variants={props.variants}
+        initial="hide"
+        animate="reveal"
+        exit="hide"
+      >
+        <AnimatePresence mode="wait">
+          {isXTurn === isPlayerX ? (
+            <motion.p>Weighing my options</motion.p>
+          ) : props.gameMode === "ai" ? (
+            <motion.p>AI is thinking</motion.p>
+          ) : (
+            <motion.p>Our buddy here is calculating</motion.p>
+          )}
+        </AnimatePresence>
+        <motion.img
           className={`${
             props.theme === "light" && classes["thinking__img__light"]
           }`}
           src={loadingGif}
           alt="."
         />
-      </div>
+      </motion.div>
 
-      <div className={classes["game-board"]}>
-        {cellState.map((cell) => (
-          <GameBoardCell
-            state={cell.state}
-            id={cell.id}
-            key={cell.id}
-            gameMode={props.gameMode}
-            isMyTurn={isXTurn === isPlayerX}
-            theme={props.theme}
-            onClick={() => onDispatchCellState(cell.id, cell.state)}
-          />
-        ))}
-      </div>
+      <motion.div className={classes["game-board"]}>
+        <AnimatePresence>
+          {cellState.map((cell) => (
+            <GameBoardCell
+              variants={props.variants}
+              theme={props.theme}
+              state={cell.state}
+              id={cell.id}
+              key={cell.id}
+              gameMode={props.gameMode}
+              isMyTurn={isXTurn === isPlayerX}
+              onClick={() => onDispatchCellState(cell.id, cell.state)}
+            />
+          ))}
+        </AnimatePresence>
+      </motion.div>
 
-      <div className={classes["game-scores"]}>
-        <div className={`${classes["score-box"]} x`}>
+      <motion.div className={classes["game-scores"]}>
+        <motion.div className={`${classes["score-box"]} x`}>
           <label>X({isPlayerX ? "YOU" : "CPU"})</label>
           <b>{isPlayerX ? wins : losses}</b>
-        </div>
-        <div className={`${classes["score-box"]} ties`}>
+        </motion.div>
+        <motion.div className={`${classes["score-box"]} ties`}>
           <label>TIES</label>
           <b>{ties}</b>
-        </div>
-        <div className={`${classes["score-box"]} o`}>
+        </motion.div>
+        <motion.div className={`${classes["score-box"]} o`}>
           <label>X({!isPlayerX ? "YOU" : "CPU"})</label>
           <b>{!isPlayerX ? wins : losses}</b>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {dispModal !== "" && (
         <Modal
+          variants={props.variants}
           mode={dispModal}
           closeModal={() => setDispModal("")}
           onQuitGame={() => quitGame()}
@@ -596,7 +670,7 @@ const GameStage = (props) => {
           restartGame={restartGame}
         />
       )}
-    </div>
+    </motion.div>
   );
 };
 

@@ -5,9 +5,21 @@ import IconO from "../../assets/icons/icon-o.svg";
 
 const Modal = (props) => {
   return (
-    <div className={`${classes.modal}`}>
-      <div className={`${classes.backdrop}`}></div>
-      <div className={`${classes["modal-box"]}`}>
+    <motion.div className={`${classes.modal}`}>
+      <motion.div
+        className={`${classes.backdrop}`}
+        variants={props.variants}
+        initial="opacityHide"
+        animate="opacityReveal"
+        exit="opacityHide"
+      ></motion.div>
+      <motion.div
+        className={`${classes["modal-box"]}`}
+        variants={props.variants}
+        initial="leftClosed"
+        animate="leftOpened"
+        exit="leftClosed"
+      >
         <label>
           {props.hasTied
             ? "NO WINNER!"
@@ -17,7 +29,7 @@ const Modal = (props) => {
             ? "YOU WON!"
             : "YOU LOSE!"}
         </label>
-        <span className={`${classes.remark}`}>
+        <motion.span className={`${classes.remark}`}>
           {props.mode === "result" && !props.hasTied && (
             <img
               src={props.hasWon && props.isPlayerX ? IconX : IconO}
@@ -31,42 +43,70 @@ const Modal = (props) => {
               ? "TAKES THE ROUND"
               : "DO YOU WANT TO RESTART THE GAME?"}
           </b>
-        </span>
-        <div className={`${classes.actions}`}>
+        </motion.span>
+        <motion.div className={`${classes.actions}`}>
           {props.mode === "result" ? (
             <>
-              <button
+              <motion.button
                 className={`card ${classes.grey}`}
+                style={{
+                  boxShadow: `inset 0 -5px 0 ${
+                    props.theme === "dark"
+                      ? "rgba(0, 0, 0, 0.3)"
+                      : "rgba(0, 0, 0, 0.2)"
+                  }`,
+                }}
                 onClick={props.onQuitGame}
               >
                 QUIT
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 className={`card ${classes.orange}`}
+                style={{
+                  boxShadow: `inset 0 -5px 0 ${
+                    props.theme === "dark"
+                      ? "rgba(0, 0, 0, 0.3)"
+                      : "rgba(0, 0, 0, 0.2)"
+                  }`,
+                }}
                 onClick={props.goToNext}
               >
                 NEXT ROUND
-              </button>
+              </motion.button>
             </>
           ) : (
             <>
-              <button
+              <motion.button
                 className={`card ${classes.grey}`}
+                style={{
+                  boxShadow: `inset 0 -5px 0 ${
+                    props.theme === "dark"
+                      ? "rgba(0, 0, 0, 0.3)"
+                      : "rgba(0, 0, 0, 0.2)"
+                  }`,
+                }}
                 onClick={props.closeModal}
               >
                 NO
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 className={`card ${classes.orange}`}
+                style={{
+                  boxShadow: `inset 0 -5px 0 ${
+                    props.theme === "dark"
+                      ? "rgba(0, 0, 0, 0.3)"
+                      : "rgba(0, 0, 0, 0.2)"
+                  }`,
+                }}
                 onClick={props.restartGame}
               >
                 YES
-              </button>
+              </motion.button>
             </>
           )}
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
