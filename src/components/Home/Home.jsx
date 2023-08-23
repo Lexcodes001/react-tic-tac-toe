@@ -45,7 +45,7 @@ const Home = (props) => {
           }`,
         }}
       >
-        <header>PICK PLAYER 1's MARK</header>
+        <header>PICK YOUR MARK</header>
         <motion.div className={classes.players}>
           <motion.span
             onClick={() => {
@@ -101,6 +101,7 @@ const Home = (props) => {
           }}
           onClick={() => props.onSelectMode("ai")}
           variants={props.variants}
+          animate={{ scale: 1 }}
           whileTap="tap"
         >
           NEW GAME (VS AI)
@@ -116,6 +117,7 @@ const Home = (props) => {
           }}
           onClick={() => props.onSelectMode("human")}
           variants={props.variants}
+          animate={{ scale: 1 }}
           whileTap="tap"
         >
           NEW GAME (VS PLAYER)
